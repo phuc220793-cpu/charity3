@@ -1,0 +1,658 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ==================== APPLE FIXED HEADER ==================== */
+.apple-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 52px;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-container {
+  width: 100%;
+  max-width: 980px;
+  padding: 0 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-logo {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #f5f5f7;
+  letter-spacing: -0.5px;
+  cursor: pointer;
+}
+
+.header-nav {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #f5f5f7;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  letter-spacing: 0.02em;
+}
+
+.nav-button:hover {
+  opacity: 1;
+}
+
+/* ==================== IMMERSIVE HERO BANNER ==================== */
+.hero-immersive {
+  position: relative;
+  width: 100vw;
+  height: 60vh;
+  margin-top: 52px;
+  margin-left: calc(50% - 50vw);
+  background-image: url('./Gemini_Generated_Image_4mjgpl4mjgpl4mjg.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(to bottom, transparent, #0a0a0b);
+}
+
+/* ==================== MAIN CONTENT WRAPPER ==================== */
+.content-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 120px 40px 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 200px;
+}
+
+/* ==================== HERO SECTION ==================== */
+.section-hero {
+  text-align: center;
+  padding: 0 20px;
+}
+
+.section-label {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 32px;
+}
+
+.headline-massive {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 5rem;
+  font-weight: 100;
+  line-height: 1;
+  color: #ffffff;
+  margin-bottom: 24px;
+  letter-spacing: -0.03em;
+}
+
+.eth-label {
+  color: #d4af37;
+  font-weight: 200;
+}
+
+.section-description {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.6;
+}
+
+/* ==================== CAMPAIGN INFO GRID ==================== */
+.campaign-info {
+  padding: 0 20px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  gap: 48px;
+  align-items: center;
+  padding: 48px 60px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+}
+
+.info-item {
+  text-align: center;
+}
+
+.info-label {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 16px;
+}
+
+.info-value {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.info-divider {
+  width: 1px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ==================== CARD SECTIONS ==================== */
+.section-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 80px 60px;
+  backdrop-filter: blur(40px);
+}
+
+.card-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-title {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 2.5rem;
+  font-weight: 200;
+  color: #ffffff;
+  margin: 24px 0 16px;
+  letter-spacing: -0.02em;
+}
+
+/* ==================== INPUT GROUP ==================== */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.input-primary {
+  width: 100%;
+  padding: 24px 32px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 2rem;
+  font-weight: 300;
+  text-align: center;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-primary:focus {
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
+}
+
+.input-primary::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.input-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button-primary {
+  width: 100%;
+  padding: 18px 48px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #000000;
+  background: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.button-primary:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.button-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ==================== LEADERBOARD ==================== */
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.leaderboard-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background-color 0.2s ease;
+}
+
+.leaderboard-row:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.leaderboard-row:last-child {
+  border-bottom: none;
+}
+
+.row-address {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.row-amount {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #d4af37;
+}
+
+.empty-state {
+  padding: 80px 20px;
+  text-align: center;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  .headline-massive {
+    font-size: 3rem;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+  }
+
+  .section-card {
+    padding: 60px 32px;
+  }
+
+  .input-primary {
+    font-size: 1.5rem;
+    padding: 20px 24px;
+  }
+
+  .content-wrapper {
+    padding: 80px 24px 120px;
+    gap: 120px;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 40px 32px;
+  }
+
+  .info-divider {
+    display: none;
+  }
+}
+
+/* ==================== ADMIN PANEL ==================== */
+.admin-panel {
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  background: rgba(212, 175, 55, 0.03);
+}
+
+.button-withdraw {
+  background: linear-gradient(135deg, #d4af37, #b8941f);
+  color: #000000;
+  font-weight: 600;
+}
+
+.button-withdraw:hover:not(:disabled) {
+  opacity: 0.9;
+  background: linear-gradient(135deg, #e0bd47, #c8a42f);
+}
+
+/* ==================== HERO BANNER ==================== */
+.hero-banner {
+  position: relative;
+  width: 100vw;
+  min-height: 600px;
+  margin-left: calc(50% - 50vw);
+  background-image: url("./Gemini_Generated_Image_4mjgpl4mjgpl4mjg.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.hero-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(10, 10, 11, 0.75),
+    rgba(10, 10, 11, 0.3)
+  );
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+}
+
+.hero-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 160px;
+  background: linear-gradient(to bottom, transparent, #0a0a0b);
+  pointer-events: none;
+}
+
+/* ==================== LUXURY GLASS CARDS (APPLE PRO) ==================== */
+.luxury-glass {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  padding: 72px 64px;
+  background: rgba(249, 250, 251, 0.03);
+  border: 1px solid rgba(249, 250, 251, 0.12);
+  box-shadow: 
+    0 50px 120px rgba(0, 0, 0, 0.6),
+    0 20px 50px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(60px) saturate(150%);
+  -webkit-backdrop-filter: blur(60px) saturate(150%);
+}
+
+/* Refractive top edge */
+.luxury-glass::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 55, 0.4) 40%,
+    rgba(212, 175, 55, 0.4) 60%,
+    transparent
+  );
+}
+
+/* Refractive left edge */
+.luxury-glass::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(212, 175, 55, 0.3) 30%,
+    transparent
+  );
+}
+
+/* ==================== TEXT GRADIENT (APPLE STYLE) ==================== */
+.eth-gradient {
+  background: linear-gradient(180deg, #f9fafb 0%, #b8b8b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 8px rgba(249, 250, 251, 0.1));
+}
+
+/* ==================== ZEN INPUT (APPLE PRO) ==================== */
+.zen-input {
+  width: 100%;
+  padding: 28px 32px;
+  border: 2px solid rgba(249, 250, 251, 0.2);
+  border-radius: 12px;
+  background: rgba(249, 250, 251, 0.04);
+  color: #f9fafb;
+  font-size: 28px;
+  font-weight: 300;
+  text-align: center;
+  outline: none;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  font-variant-numeric: tabular-nums;
+}
+
+.zen-input::placeholder {
+  color: rgba(249, 250, 251, 0.25);
+  font-weight: 300;
+}
+
+.zen-input:focus {
+  border-color: rgba(249, 250, 251, 0.45);
+  background: rgba(249, 250, 251, 0.06);
+  box-shadow: 
+    0 0 0 4px rgba(249, 250, 251, 0.08),
+    0 4px 20px rgba(212, 175, 55, 0.2),
+    0 0 40px rgba(249, 250, 251, 0.1);
+  transform: scale(1.01);
+}
+
+.zen-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ==================== ZEN BUTTON (APPLE PRO) ==================== */
+.zen-button {
+  width: 100%;
+  padding: 22px 48px;
+  border-radius: 999px;
+  background: rgba(249, 250, 251, 0.98);
+  color: #0a0a0b;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.4),
+    0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.zen-button:hover:not(:disabled) {
+  background: #ffffff;
+  color: #0a0a0b;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 20px 60px rgba(249, 250, 251, 0.3),
+    0 8px 24px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(249, 250, 251, 0.1);
+}
+
+.zen-button:active:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.zen-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ==================== ZEN ROW (APPLE LEADERBOARD) ==================== */
+.zen-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px 24px;
+  margin: 0 -24px;
+  border-bottom: 0.5px solid rgba(249, 250, 251, 0.06);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 8px;
+}
+
+.zen-row:hover {
+  background: rgba(249, 250, 251, 0.05);
+  border-bottom-color: rgba(249, 250, 251, 0.1);
+  transform: translateX(4px);
+}
+
+.zen-row:last-child {
+  border-bottom: none;
+}
+
+/* ==================== ETH AMOUNT HIGHLIGHT (APPLE GOLD) ==================== */
+.eth-amount {
+  color: #d4af37;
+  font-weight: 500;
+  text-shadow: 0 0 24px rgba(212, 175, 55, 0.4);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==================== TRANSACTION HISTORY ==================== */
+.transaction-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.transaction-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transaction-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateX(4px);
+}
+
+.transaction-row.donation {
+  border-left: 3px solid rgba(52, 199, 89, 0.4);
+}
+
+.transaction-row.withdrawal {
+  border-left: 3px solid rgba(212, 175, 55, 0.4);
+}
+
+.tx-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tx-type {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: rgba(249, 250, 251, 0.6);
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.tx-address {
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(249, 250, 251, 0.9);
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+}
+
+.tx-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.tx-amount {
+  font-size: 17px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.tx-amount.positive {
+  color: #34c759;
+}
+
+.tx-amount.negative {
+  color: #d4af37;
+}
+
+.tx-time {
+  font-size: 12px;
+  color: rgba(249, 250, 251, 0.5);
+  font-weight: 400;
+}
+
+/* ==================== RESPONSIVE ADJUSTMENTS ==================== */
+@media (max-width: 768px) {
+  .luxury-glass {
+    padding: 40px 32px;
+  }
+
+  .zen-input {
+    font-size: 18px;
+    padding: 20px;
+  }
+
+  .zen-button {
+    padding: 16px 32px;
+  }
+
+  .zen-row {
+    padding: 20px 0;
+  }
+}

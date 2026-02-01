@@ -1,0 +1,49 @@
+/* src/App.css */
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fcfcfc; /* Trắng ngà tối giản */
+  color: #333;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+.charity-container {
+  background: white;
+  padding: 40px;
+  border-radius: 4px; /* Bo góc nhẹ kiểu Nhật */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+  width: 100%;
+  max-width: 450px;
+}
+
+.progress-container {
+  height: 4px;
+  background: #eee;
+  margin: 25px 0;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #000; /* Thanh tiến độ màu đen cực tối giản */
+  transition: width 0.4s ease;
+}
+
+input {
+  border: 1px solid #eee;
+  padding: 12px;
+  width: 100%;
+  margin-bottom: 15px;
+  outline: none;
+}
+
+button {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  cursor: pointer;
+  width: 100%;
+  letter-spacing: 1px;
+}
