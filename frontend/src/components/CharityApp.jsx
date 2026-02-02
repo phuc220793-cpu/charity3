@@ -4,7 +4,7 @@ import abi from "../contracts/CharityABI.json";
 import "./LiquidGlass.css";
 import heroImage from "./Gemini_Generated_Image_4mjgpl4mjgpl4mjg.png";
 
-const CONTRACT_ADDRESS = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+const CONTRACT_ADDRESS = "0xA4CCfcE965653d02b366A4dAe82273E961DB6584";
 
 function CharityApp() {
   const [raised, setRaised] = useState("0");

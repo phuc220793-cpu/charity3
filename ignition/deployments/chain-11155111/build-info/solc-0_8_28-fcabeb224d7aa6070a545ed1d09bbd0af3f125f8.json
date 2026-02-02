@@ -1,0 +1,39 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_28-fcabeb224d7aa6070a545ed1d09bbd0af3f125f8",
+  "solcVersion": "0.8.28",
+  "solcLongVersion": "0.8.28+commit.7893614a",
+  "userSourceNameMap": {
+    "contracts/Charity.sol": "project/contracts/Charity.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "cancun",
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode",
+            "evm.deployedBytecode",
+            "evm.methodIdentifiers",
+            "metadata"
+          ]
+        }
+      },
+      "remappings": []
+    },
+    "sources": {
+      "project/contracts/Charity.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.20;\r\n\r\ncontract Charity {\r\n    string public title;\r\n    uint256 public target;\r\n    uint256 public deadline;\r\n    uint256 public raised;\r\n    address public owner;\r\n    address[] public donors;\r\n\r\n    struct Transaction {\r\n        address user;\r\n        uint256 amount;\r\n        uint256 timestamp;\r\n        bool isWithdrawal;\r\n    }\r\n    \r\n    Transaction[] public transactions;\r\n\r\n    mapping(address => uint256) public contributions;\r\n    mapping(address => bool) private hasDonated;\r\n\r\n    event ContributionMade(address indexed donor, uint256 amount);\r\n    event Withdrawn(uint256 amount);\r\n\r\n    constructor(string memory _title, uint256 _target, uint256 _secondsUntilDeadline) {\r\n        require(_target > 0, \"Target must be > 0\");\r\n        require(_secondsUntilDeadline > 0, \"Deadline must be > 0\");\r\n        title = _title;\r\n        target = _target;\r\n        deadline = block.timestamp + _secondsUntilDeadline;\r\n        owner = msg.sender;\r\n    }\r\n    \r\n    function contribute() public payable { \r\n        require(block.timestamp < deadline, \"Campaign ended\");\r\n        require(raised < target, \"Target already reached\"); \r\n        require(msg.value > 0, \"Must send ETH\");\r\n\r\n        if (!hasDonated[msg.sender]) {\r\n            donors.push(msg.sender);\r\n            hasDonated[msg.sender] = true;\r\n        }\r\n\r\n        contributions[msg.sender] += msg.value;\r\n        raised += msg.value;\r\n        \r\n        transactions.push(Transaction({\r\n            user: msg.sender,\r\n            amount: msg.value,\r\n            timestamp: block.timestamp,\r\n            isWithdrawal: false\r\n        }));\r\n        \r\n        emit ContributionMade(msg.sender, msg.value);\r\n    }\r\n    \r\n    function withdraw() external {\r\n        require(msg.sender == owner, \"Only owner\");\r\n        uint256 balance = address(this).balance;\r\n        require(balance > 0, \"No funds\");\r\n        \r\n        transactions.push(Transaction({\r\n            user: msg.sender,\r\n            amount: balance,\r\n            timestamp: block.timestamp,\r\n            isWithdrawal: true\r\n        }));\r\n        \r\n        (bool sent, ) = owner.call{value: balance}(\"\");\r\n        require(sent, \"Withdraw failed\");\r\n        emit Withdrawn(balance);\r\n    }\r\n    \r\n    function getDonors() external view returns (address[] memory) {\r\n        return donors;\r\n    }\r\n    \r\n    function getDonorCount() external view returns (uint256) {\r\n        return donors.length;\r\n    }\r\n    \r\n    function getTransactions() external view returns (Transaction[] memory) {\r\n        return transactions;\r\n    }\r\n    \r\n    function getTransactionCount() external view returns (uint256) {\r\n        return transactions.length;\r\n    }\r\n\r\n    receive() external payable {\r\n        contribute();\r\n    }\r\n}"
+      }
+    }
+  }
+}
