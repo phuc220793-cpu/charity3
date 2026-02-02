@@ -4,9 +4,36 @@ import abi from "../contracts/CharityABI.json";
 import "./LiquidGlass.css";
 import heroImage from "./Gemini_Generated_Image_4mjgpl4mjgpl4mjg.png";
 
-const CONTRACT_ADDRESS = "0xA4CCfcE965653d02b366A4dAe82273E961DB6584";
+
+// Mock campaign data (replace with real data from contract if available)
+const CAMPAIGNS = [
+  {
+    id: 1,
+    name: "Chung tay cùng miền núi",
+    address: "0xA4CCfcE965653d02b366A4dAe82273E961DB6584",
+    image: heroImage,
+    description: "Ủng hộ trẻ em vùng cao vượt khó, xây trường học và hỗ trợ sách vở.",
+  },
+  {
+    id: 2,
+    name: "Quỹ Trái Tim Việt Nam",
+    address: "0x1234567890abcdef1234567890abcdef12345678",
+    image: heroImage,
+    description: "Gây quỹ phẫu thuật tim cho trẻ em nghèo trên toàn quốc.",
+  },
+  {
+    id: 3,
+    name: "Hỗ trợ đồng bào lũ lụt miền Trung",
+    address: "0xabcdefabcdefabcdefabcdefabcdefabcdefabcd",
+    image: heroImage,
+    description: "Cứu trợ khẩn cấp và tái thiết sau thiên tai cho đồng bào miền Trung.",
+  },
+];
+
 
 function CharityApp() {
+  // Campaign selection state
+  const [selectedCampaign, setSelectedCampaign] = useState(CAMPAIGNS[0]);
   const [raised, setRaised] = useState("0");
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
@@ -18,17 +45,29 @@ function CharityApp() {
   const [target, setTarget] = useState("0");
   const [deadline, setDeadline] = useState(null);
   const [activeSection, setActiveSection] = useState("home");
+  // Add state and filter for user's transactions
+  const [showOnlyMine, setShowOnlyMine] = useState(false);
+  const filteredTransactions = useMemo(() => {
+    if (!showOnlyMine || !currentAccount) return transactions;
+    return transactions.filter(
+      (tx) => tx.user && tx.user.toLowerCase() === currentAccount.toLowerCase()
+    );
+  }, [showOnlyMine, transactions, currentAccount]);
 
   const isOwner = useMemo(() => {
     if (!currentAccount || !ownerAddress) return false;
     return currentAccount.toLowerCase() === ownerAddress.toLowerCase();
   }, [currentAccount, ownerAddress]);
 
-  useEffect(() => {
-    loadBlockchainData();
-  }, []);
 
-  const loadBlockchainData = async () => {
+  useEffect(() => {
+    if (selectedCampaign) {
+      loadBlockchainData(selectedCampaign.address);
+    }
+    // eslint-disable-next-line
+  }, [selectedCampaign]);
+
+  const loadBlockchainData = async (contractAddress) => {
     try {
       if (!window.ethereum) {
         alert("⚠️ Vui lòng cài đặt MetaMask để sử dụng ứng dụng này!");
@@ -44,7 +83,7 @@ function CharityApp() {
       }
 
       const provider = new ethers.BrowserProvider(window.ethereum);
-      const contract = new ethers.Contract(CONTRACT_ADDRESS, abi.abi, provider);
+      const contract = new ethers.Contract(contractAddress, abi.abi, provider);
 
       const totalRaised = await contract.getFunction("raised")();
       setRaised(ethers.formatEther(totalRaised));
@@ -135,7 +174,7 @@ function CharityApp() {
 
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      const contract = new ethers.Contract(CONTRACT_ADDRESS, abi.abi, signer);
+      const contract = new ethers.Contract(selectedCampaign.address, abi.abi, signer);
 
       const now = Math.floor(Date.now() / 1000);
       if (deadline && now > deadline) {
@@ -175,7 +214,7 @@ function CharityApp() {
       setWithdrawing(true);
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      const contract = new ethers.Contract(CONTRACT_ADDRESS, abi.abi, signer);
+      const contract = new ethers.Contract(selectedCampaign.address, abi.abi, signer);
 
       const tx = await contract.withdraw();
       await tx.wait();
@@ -208,7 +247,7 @@ function CharityApp() {
   return (
     <div className="min-h-screen charcoal-bg">
       {/* Navigation */}
-      <nav className="glass-panel border-b border-white/5">
+      <nav className="glass-panel border-b border-white/5 pt-4">
         <div className="container mx-auto px-6 lg:px-12 py-5">
           <div className="flex items-center justify-between">
             <div className="text-2xl font-thin tracking-[0.2em] text-offwhite">
@@ -245,114 +284,115 @@ function CharityApp() {
               >
                 TRANSACTIONS
               </button>
-              {currentAccount ? (
-                <div className="glass-button px-5 py-2.5 cursor-default">
-                  {formatAddress(currentAccount)}
-                </div>
-              ) : (
-                <button onClick={connectWallet} className="glass-button px-5 py-2.5">
-                  CONNECT
-                </button>
-              )}
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* Campaign List Section */}
       {activeSection === "home" && (
-        <>
-          <section
-            className="relative h-[75vh] flex items-center justify-center overflow-hidden"
-            style={{
-              backgroundImage: `url(${heroImage})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0B]/60 via-[#0A0A0B]/80 to-[#0A0A0B]"></div>
-            <div className="relative z-10 text-center px-6 space-y-6 max-w-4xl">
-              <h1 className="text-7xl font-thin tracking-[0.15em] text-offwhite leading-tight">
-                MAKE A DIFFERENCE
-              </h1>
-              <p className="text-xl font-light text-offwhite/80 tracking-wide max-w-2xl mx-auto leading-relaxed">
-                Every contribution brings us closer to a better tomorrow.
-              </p>
-            </div>
-          </section>
-
-          {/* Campaign Stats */}
-          <section className="w-full px-6 lg:px-12 py-20">
-            <div className="glass-panel p-12 max-w-5xl mx-auto">
-              <div className="flex justify-center items-center gap-24 mb-12">
-                <div className="text-center min-w-[150px]">
-                  <div className="text-5xl font-thin text-mutedgold mb-2">
-                    {parseFloat(raised).toFixed(2)}
-                  </div>
-                  <div className="text-sm font-light tracking-widest text-offwhite/60">
-                    ETH RAISED
-                  </div>
-                </div>
-                <div className="text-center min-w-[150px]">
-                  <div className="text-5xl font-thin text-offwhite mb-2">
-                    {parseFloat(target).toFixed(2)}
-                  </div>
-                  <div className="text-sm font-light tracking-widest text-offwhite/60">
-                    TARGET
-                  </div>
-                </div>
-                <div className="text-center min-w-[150px]">
-                  <div className="text-5xl font-thin text-offwhite mb-2">
-                    {progress.toFixed(0)}%
-                  </div>
-                  <div className="text-sm font-light tracking-widest text-offwhite/60">
-                    PROGRESS
-                  </div>
-                </div>
-              </div>
-
-              {/* Progress Bar */}
-              <div className="mb-12">
-                <div className="h-2 bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
-                  <div
-                    className="h-full bg-gradient-to-r from-mutedgold to-mutedgold/70 transition-all duration-1000 ease-out"
-                    style={{ width: `${progress}%` }}
-                  ></div>
-                </div>
-              </div>
-
-              {/* Donate Form */}
-              <div className="space-y-6">
-                <input
-                  type="number"
-                  placeholder="Amount in ETH"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-lg text-offwhite placeholder-offwhite/40 focus:outline-none focus:border-mutedgold/50 transition-all text-lg font-light tracking-wide backdrop-blur-sm"
-                  disabled={loading}
-                />
-                <div className="flex gap-4">
-                  <button
-                    onClick={handleDonate}
-                    disabled={loading}
-                    className="flex-1 glass-button px-8 py-4 text-lg disabled:opacity-50"
-                  >
-                    {loading ? "PROCESSING..." : "DONATE NOW"}
-                  </button>
-                  {isOwner && (
-                    <button
-                      onClick={handleWithdraw}
-                      disabled={withdrawing}
-                      className="flex-1 glass-button px-8 py-4 text-lg disabled:opacity-50 border-mutedgold/30 hover:border-mutedgold"
-                    >
-                      {withdrawing ? "WITHDRAWING..." : "WITHDRAW"}
-                    </button>
+        <section className="w-full min-h-[40vh] flex flex-col justify-center items-center px-6 lg:px-12 pt-8 pb-2 bg-black/70">
+          <div className="max-w-5xl w-full flex flex-col items-center">
+            <h2 className="text-4xl font-bold text-yellow-300 mb-8 text-center tracking-wide drop-shadow">DỰ ÁN QUYÊN GÓP</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full justify-items-center">
+              {CAMPAIGNS.map((c) => (
+                <div
+                  key={c.id}
+                  className={`rounded-2xl shadow-lg border-2 transition-all duration-200 cursor-pointer bg-white/10 backdrop-blur-md p-5 flex flex-col items-center hover:scale-105 ${selectedCampaign.id === c.id ? "border-yellow-400" : "border-transparent"}`}
+                  onClick={() => setSelectedCampaign(c)}
+                >
+                  <img src={c.image} alt={c.name} className="w-full h-32 object-cover rounded-xl mb-4" />
+                  <div className="font-bold text-lg text-white mb-2 text-center">{c.name}</div>
+                  <div className="text-sm text-white/80 mb-2 text-center min-h-[48px]">{c.description}</div>
+                  <div className="text-xs text-white/50 font-mono break-all">{c.address}</div>
+                  {selectedCampaign.id === c.id && (
+                    <div className="mt-2 px-3 py-1 bg-yellow-300 text-black text-xs rounded-full font-bold">Đang chọn</div>
                   )}
                 </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Hero Section - Redesigned for selected campaign */}
+      {activeSection === "home" && selectedCampaign && (
+        <section
+          className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-black"
+          style={{
+            backgroundImage: `linear-gradient(rgba(10,10,11,0.7),rgba(10,10,11,0.8)), url(${selectedCampaign.image})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0B]/80 via-[#0A0A0B]/60 to-[#1a1a1a]/80"></div>
+          <div className="relative z-10 text-center px-6 space-y-8 max-w-3xl mx-auto flex flex-col items-center">
+            <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-white to-yellow-400 drop-shadow-lg animate-fadein">
+              {selectedCampaign.name}
+            </h1>
+            <p className="text-lg font-light text-white/90 tracking-wide max-w-2xl mx-auto leading-relaxed drop-shadow">
+              {selectedCampaign.description}
+            </p>
+            <div className="flex flex-col md:flex-row gap-6 justify-center mt-8">
+              <div className="rounded-xl bg-white/10 backdrop-blur-md px-8 py-6 shadow-lg border border-yellow-200 flex flex-col items-center min-w-[140px]">
+                <span className="text-4xl font-bold text-yellow-300 drop-shadow">
+                  {parseFloat(raised).toFixed(2)}
+                </span>
+                <span className="text-xs font-semibold text-white/80 mt-1 tracking-widest">ETH RAISED</span>
+              </div>
+              <div className="rounded-xl bg-white/10 backdrop-blur-md px-8 py-6 shadow-lg border border-white/20 flex flex-col items-center min-w-[140px]">
+                <span className="text-4xl font-bold text-white drop-shadow">
+                  {parseFloat(target).toFixed(2)}
+                </span>
+                <span className="text-xs font-semibold text-white/60 mt-1 tracking-widest">TARGET</span>
+              </div>
+              <div className="rounded-xl bg-white/10 backdrop-blur-md px-8 py-6 shadow-lg border border-yellow-200 flex flex-col items-center min-w-[140px]">
+                <span className="text-4xl font-bold text-yellow-300 drop-shadow">
+                  {progress.toFixed(0)}%
+                </span>
+                <span className="text-xs font-semibold text-white/80 mt-1 tracking-widest">PROGRESS</span>
               </div>
             </div>
-          </section>
-        </>
+            {/* Progress Bar */}
+            <div className="w-full max-w-xl mx-auto mt-8">
+              <div className="h-4 bg-white/20 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 transition-all duration-700"
+                  style={{ width: `${progress}%` }}
+                ></div>
+              </div>
+            </div>
+            {/* Donate Form */}
+            <div className="flex flex-col md:flex-row gap-4 justify-center items-center mt-10">
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="Amount in ETH"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                className="px-6 py-3 rounded-lg bg-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-yellow-300 w-56 text-lg shadow"
+                disabled={loading}
+              />
+              <button
+                onClick={handleDonate}
+                disabled={loading}
+                className="px-8 py-3 rounded-lg bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 text-black font-bold text-lg shadow-lg hover:scale-105 active:scale-95 transition-all duration-200 disabled:opacity-60"
+              >
+                {loading ? "Processing..." : "DONATE NOW"}
+              </button>
+              {isOwner && (
+                <button
+                  onClick={handleWithdraw}
+                  disabled={withdrawing}
+                  className="px-8 py-3 rounded-lg bg-gradient-to-r from-gray-700 via-gray-900 to-black text-yellow-300 font-bold text-lg shadow-lg hover:scale-105 active:scale-95 transition-all duration-200 disabled:opacity-60 border border-yellow-300"
+                >
+                  {withdrawing ? "Withdrawing..." : "WITHDRAW"}
+                </button>
+              )}
+            </div>
+          </div>
+        </section>
       )}
 
       {/* Leaderboard Section */}
@@ -401,15 +441,26 @@ function CharityApp() {
             <h2 className="text-5xl font-thin tracking-[0.15em] text-offwhite mb-12 text-center">
               TRANSACTION HISTORY
             </h2>
+            <div className="flex justify-end mb-4">
+              <label className="flex items-center gap-2 text-offwhite/80 text-sm cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={showOnlyMine}
+                  onChange={() => setShowOnlyMine((v) => !v)}
+                  className="accent-yellow-400 w-4 h-4"
+                />
+                Chỉ hiện giao dịch của tôi
+              </label>
+            </div>
             <div className="glass-panel p-8">
               <div className="transaction-list">
-                {transactions.length > 0 ? (
-                  transactions.map((tx, index) => (
+                {filteredTransactions.length > 0 ? (
+                  filteredTransactions.map((tx, index) => (
                     <div
                       key={index}
                       className={`transaction-row ${
                         tx.isWithdrawal ? "withdrawal" : "donation"
-                      }`}
+                      } ${currentAccount && tx.user.toLowerCase() === currentAccount.toLowerCase() ? "bg-yellow-100/10 border-l-4 border-yellow-300" : ""}`}
                     >
                       <div className="tx-left">
                         <div className="tx-type">
