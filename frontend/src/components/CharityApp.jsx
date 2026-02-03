@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { ethers } from "ethers";
-import abi from "../../../artifacts/contracts/Charity.sol/Charity.json";
+import CharityABI from "../contracts/CharityABI.json";
 import "./CharityApp.css";
+
+const abi = CharityABI.abi || CharityABI;
 import imgCampaign1 from "../assets/CD1.jpg";
 import imgCampaign2 from "../assets/CD2.jpg";
 import imgCampaign3 from "../assets/CD3.jpg";
