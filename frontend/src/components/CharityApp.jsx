@@ -2,11 +2,11 @@ import React, { useState, useEffect, useMemo } from "react";
 import { ethers } from "ethers";
 import CharityABI from "../contracts/CharityABI.json";
 import "./CharityApp.css";
-
-const abi = CharityABI.abi || CharityABI;
 import imgCampaign1 from "../assets/CD1.jpg";
 import imgCampaign2 from "../assets/CD2.jpg";
 import imgCampaign3 from "../assets/CD3.jpg";
+
+const abi = CharityABI.abi || CharityABI;
 
 // Mock campaign data (replace with real data from contract if available)
 // ⚠️ Hiện tại tất cả campaigns đang dùng chung 1 contract trên Sepolia
