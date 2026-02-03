@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { ethers } from "ethers";
-import CharityABI from "../contracts/CharityABI.json";
+import charityArtifact from "../contracts/CharityABI.json";
 import "./CharityApp.css";
 import imgCampaign1 from "../assets/CD1.jpg";
 import imgCampaign2 from "../assets/CD2.jpg";
 import imgCampaign3 from "../assets/CD3.jpg";
 
-const abi = CharityABI.abi || CharityABI;
+// Extract ABI from artifact
+const abi = charityArtifact.abi || charityArtifact;
 
-// Mock campaign data (replace with real data from contract if available)
-// ⚠️ Hiện tại tất cả campaigns đang dùng chung 1 contract trên Sepolia
 const CAMPAIGNS = [
   {
     id: 1,
@@ -125,17 +124,13 @@ function CharityApp() {
         return;
       }
 
-      const contract = new ethers.Contract(contractAddress, abi.abi, provider);
+      const contract = new ethers.Contract(contractAddress, abi, provider);
 
       const totalRaised = await contract.raised();
       setRaised(ethers.formatEther(totalRaised));
 
-      // Use interface to call target function directly to avoid conflicts
-      const iface = new ethers.Interface(abi.abi);
-      const targetFunc = iface.getFunction("target");
-      const targetData = iface.encodeFunctionData(targetFunc, []);
-      const targetResult = await provider.call({ to: contractAddress, data: targetData });
-      const campaignTarget = iface.decodeFunctionResult(targetFunc, targetResult)[0];
+      // Get target directly from contract
+      const campaignTarget = await contract.target();
       setTarget(ethers.formatEther(campaignTarget));
 
       const campaignDeadline = await contract.deadline();
@@ -227,7 +222,7 @@ function CharityApp() {
       }
 
       const signer = await provider.getSigner();
-      const contract = new ethers.Contract(selectedCampaign.address, abi.abi, signer);
+      const contract = new ethers.Contract(selectedCampaign.address, abi, signer);
 
       const now = Math.floor(Date.now() / 1000);
       if (deadline && now > deadline) {
@@ -286,7 +281,7 @@ function CharityApp() {
       }
 
       const signer = await provider.getSigner();
-      const contract = new ethers.Contract(selectedCampaign.address, abi.abi, signer);
+      const contract = new ethers.Contract(selectedCampaign.address, abi, signer);
 
       const tx = await contract.withdraw();
       await tx.wait();
