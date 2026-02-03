@@ -1,11 +1,12 @@
 import { HardhatUserConfig } from "hardhat/config";
-import "@nomicfoundation/hardhat-toolbox";
-require("dotenv").config();
+import "@nomicfoundation/hardhat-ethers";
+import "dotenv/config";
 
 const config: HardhatUserConfig = {
   solidity: "0.8.28",
   networks: {
     sepolia: {
+      type: "http" as const,
       url: process.env.SEPOLIA_RPC_URL,
       accounts: [process.env.SEPOLIA_PRIVATE_KEY!],
       chainId: 11155111,

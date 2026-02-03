@@ -1,4 +1,5 @@
-const hre = require("hardhat");
+import hre from "hardhat";
+import { ethers } from "hardhat";
 
 async function main() {
   const campaigns = [
@@ -10,8 +11,8 @@ async function main() {
   console.log("\n🚀 Bắt đầu deploy 3 chiến dịch lên Sepolia...\n");
 
   for (const campaign of campaigns) {
-    const Charity = await hre.ethers.getContractFactory("Charity");
-    const targetInWei = hre.ethers.parseEther(campaign.target);
+    const Charity = await ethers.getContractFactory("Charity");
+    const targetInWei = ethers.parseEther(campaign.target);
     const durationInSeconds = campaign.days * 24 * 60 * 60;
 
     console.log(`📌 Deploying: ${campaign.title}...`);

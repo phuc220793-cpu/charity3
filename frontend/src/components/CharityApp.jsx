@@ -129,8 +129,9 @@ function CharityApp() {
       const totalRaised = await contract.raised();
       setRaised(ethers.formatEther(totalRaised));
 
-      // Get target directly from contract
-      const campaignTarget = await contract.target();
+      // Use getFunction to avoid conflict with contract.target property
+      const getTarget = contract.getFunction("target");
+      const campaignTarget = await getTarget();
       setTarget(ethers.formatEther(campaignTarget));
 
       const campaignDeadline = await contract.deadline();
